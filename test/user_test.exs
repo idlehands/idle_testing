@@ -34,6 +34,15 @@ defmodule IdleTesting.UserTest do
     end
 
     test "error: returns error changeset if required values are missing" do
+      missing_params = %{}
+
+      assert %Ecto.Changeset{valid?: false} = changeset = User.create_changeset(missing_params)
+
+      errors = errors_on(changeset)
+
+      for field <- [:first_name, :email] do
+        assert {field, :required} in errors
+      end
     end
 
     test "error: returns error changeset if values can't be cast" do
