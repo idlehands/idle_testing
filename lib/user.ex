@@ -1,6 +1,8 @@
 defmodule IdleTesting.User do
   use IdleTesting.Schema
 
+  @required_fields [:email, :first_name]
+
   schema "users" do
     field(:email, :string)
     field(:favorite_number, :integer)
@@ -14,5 +16,6 @@ defmodule IdleTesting.User do
   def create_changeset(params) do
     %IdleTesting.User{}
     |> cast(params, fields())
+    |> validate_required(@required_fields)
   end
 end
