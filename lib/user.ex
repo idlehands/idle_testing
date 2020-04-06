@@ -10,4 +10,9 @@ defmodule IdleTesting.User do
   end
 
   def fields, do: __MODULE__.__schema__(:fields)
+
+  def create_changeset(params) do
+    %IdleTesting.User{}
+    |> cast(params, fields())
+  end
 end
