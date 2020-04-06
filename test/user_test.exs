@@ -6,6 +6,7 @@ defmodule IdleTesting.UserTest do
     test "success: returns list of fields" do
       expected_fields = [
         :email,
+        :favorite_number,
         :first_name,
         :id,
         :inserted_at,
