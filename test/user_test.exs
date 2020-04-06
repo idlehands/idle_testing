@@ -46,6 +46,27 @@ defmodule IdleTesting.UserTest do
     end
 
     test "error: returns error changeset if values can't be cast" do
+      not_a_string = not_an_int = DateTime.utc_now()
+
+      uncastable_params = %{
+        "email" => not_a_string,
+        "favorite_number" => not_an_int,
+        "first_name" => not_a_string,
+        "last_name" => not_a_string
+      }
+
+      assert %Ecto.Changeset{valid?: false} = changeset = User.create_changeset(uncastable_params)
+      errors = errors_on(changeset)
+
+      for {field, _} <- uncastable_params do
+        field_as_atom = String.to_atom(field)
+
+        assert Enum.any?(errors, fn
+                 {^field_as_atom, :cast, _} -> true
+                 _ -> false
+               end),
+               "Missing cast validation for field: #{field}"
+      end
     end
   end
 end
