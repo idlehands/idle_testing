@@ -25,12 +25,10 @@ defmodule IdleTesting.SchemaCase do
     fields = maybe_convert_fields_to_atoms(fields)
 
     for field <- fields do
-      with {{:ok, expected}, _} <- {Map.has_key?(expected, field), :expected},
-           {{:ok, actual}, _} <- {Map.has_key?(actual, field), :actual} do
-        expected =
-          maybe_convert_datetime_to_string(Map.fetch(expected, field), opts[:convert_dates])
-
-        actual = maybe_convert_datetime_to_string(Map.fetch(actual, field), opts[:convert_dates])
+      with {{:ok, expected}, _} <- {Map.fetch(expected, field), :expected},
+           {{:ok, actual}, _} <- {Map.fetch(actual, field), :actual} do
+        expected = maybe_convert_datetime_to_string(expected, opts[:convert_dates])
+        actual = maybe_convert_datetime_to_string(actual, opts[:convert_dates])
 
         assert(
           expected == actual,
