@@ -1,6 +1,7 @@
 defmodule IdleTesting.UserTest do
   use IdleTesting.SchemaCase
   alias IdleTesting.User
+  alias IdleTesting.Factory
 
   describe "fields/0" do
     test "success: returns list of fields" do
@@ -21,6 +22,15 @@ defmodule IdleTesting.UserTest do
 
   describe "create_changeset/1" do
     test "success: it returns a valid changeset when given valid args" do
+      valid_params = Factory.string_params_for(:user)
+
+      assert %Ecto.Changeset{valid?: true, changes: changes} = User.create_changeset(valid_params)
+
+      assert_values_for(
+        expected: {valid_params, :string_keys},
+        actual: changes,
+        fields: User.fields() -- [:id, :inserted_at, :updated_at]
+      )
     end
 
     test "error: returns error changeset if required values are missing" do
