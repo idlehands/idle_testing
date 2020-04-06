@@ -15,11 +15,12 @@ defmodule IdleTesting.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {IdleTesting.Application, []},
       extra_applications: [:logger]
     ]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test"]
+  defp elixirc_paths(env) when env in [:test, :dev], do: ["lib", "test"]
 
   defp elixirc_paths(_), do: ["lib"]
 
@@ -28,7 +29,8 @@ defmodule IdleTesting.MixProject do
     [
       {:ecto, "~> 3.4"},
       {:ecto_sql, "~> 3.4"},
-      {:ex_machina, "~> 2.4", only: :test},
+      {:ex_machina, "~> 2.4", only: [:test, :dev]},
+      {:faker, "~> 0.13.0"},
       {:postgrex, ">= 0.0.0"}
     ]
   end
