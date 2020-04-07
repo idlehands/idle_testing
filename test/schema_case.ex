@@ -9,10 +9,6 @@ defmodule IdleTesting.SchemaCase do
     end
   end
 
-  def fields_for(%schema_name{}), do: schema_name.__schema__(:fields)
-  def fields_for(%{} = map), do: Map.keys(map)
-  def fields_for(schema_name), do: schema_name.__schema__(:fields)
-
   def assert_values_for(all_the_things) do
     expected = Keyword.fetch!(all_the_things, :expected)
     actual = Keyword.fetch!(all_the_things, :actual)
